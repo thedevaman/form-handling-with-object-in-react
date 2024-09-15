@@ -9,7 +9,33 @@ const App = ()=>{
     password:'',
     mobile:''
   }
+
+  const errorformfield = {
+    firstname:null,
+    lastname:null,
+    email:null,
+    username:null,
+    password:null,
+    mobile:null
+  }
+
   const [form ,setForm] = useState(formfield)
+  const [formerror,setFormerror] = useState(errorformfield)
+
+  const validator = (key,value)=>{
+    if(!value.length) //cheking length is zero or can be said as false
+    {
+      setFormerror({
+        ...formerror,
+        [key]:`${key} field is required`
+      })
+    }else{
+      setFormerror({
+        ...formerror,
+        [key]:null
+      })
+    }
+  }
 
   const getFormvalue =(e)=>{
      const input = e.target
@@ -21,16 +47,24 @@ const App = ()=>{
           [key]:value
         }
       )
+
+      validator(key,value)
   }
 
   const signup =(e)=>{
    e.preventDefault()
-   alert(JSON.stringify(form))
+   const keys = Object.keys(form)
+   for(let key of keys)
+   {
+    let value = form[key]
+    validator(key,value)
+   }
+  //  alert(JSON.stringify(form))
   }
 
   return (
     <div  className="bg-gray-100 h-fit flex justify-center items-center">
-      <h1>{JSON.stringify(form)}</h1>
+      {/* <h1>{JSON.stringify(form)}</h1> */}
      <div className="bg-white px-8 py-4 w-[450px] shadow-lg rounded-lg animate__animated animate__zoomIn">
 
       <h1 className='text-2xl font-bold mb-3 text-center'>Signup form</h1>
@@ -44,7 +78,8 @@ const App = ()=>{
         className = "border border-gray-300 p-2 rounded"
         onChange={getFormvalue}
         />
-        {/* <small className='text-rose-600 font-semibold text-sm'>This field is required</small> */}
+        { formerror.firstname && <small className='text-rose-600 font-semibold text-sm'>{formerror.firstname}</small>}
+       
         </div>
 
         <div className='flex flex-col gap-1'>
@@ -55,7 +90,7 @@ const App = ()=>{
         className = "border border-gray-300 p-2 rounded"
         onChange={getFormvalue}
         />
-        {/* <small className='text-rose-600 font-semibold text-sm'>This field is required</small> */}
+        { formerror.lastname && <small className='text-rose-600 font-semibold text-sm'>{formerror.lastname}</small>}
         </div>
 
         <div className='flex flex-col gap-1'>
@@ -66,7 +101,7 @@ const App = ()=>{
         className = "border border-gray-300 p-2 rounded"
         onChange={getFormvalue}
         />
-        {/* <small className='text-rose-600 font-semibold text-sm'>This field is required</small> */}
+        { formerror.email && <small className='text-rose-600 font-semibold text-sm'>{formerror.email}</small>}
         </div>
 
         <div className='flex flex-col gap-1'>
@@ -77,7 +112,7 @@ const App = ()=>{
         className = "border border-gray-300 p-2 rounded"
         onChange={getFormvalue}
         />
-        {/* <small className='text-rose-600 font-semibold text-sm'>This field is required</small> */}
+    { formerror.username && <small className='text-rose-600 font-semibold text-sm'>{formerror.username}</small>}
         </div>
 
         <div className='flex flex-col gap-1'>
@@ -88,7 +123,7 @@ const App = ()=>{
         className = "border border-gray-300 p-2 rounded"
         onChange={getFormvalue}
         />
-        {/* <small className='text-rose-600 font-semibold text-sm'>This field is required</small> */}
+        { formerror.password && <small className='text-rose-600 font-semibold text-sm'>{formerror.password}</small>}
         </div>
 
         <div className='flex flex-col gap-1'>
@@ -99,7 +134,7 @@ const App = ()=>{
         className = "border border-gray-300 p-2 rounded"
         onChange={getFormvalue}
         />
-        {/* <small className='text-rose-600 font-semibold text-sm'>This field is required</small> */}
+  { formerror.mobile && <small className='text-rose-600 font-semibold text-sm'>{formerror.mobile}</small>}
         </div>
 
         <button className='border-0 bg-indigo-600 text-white rounded py-2 font-semibold'>Submit</button>
